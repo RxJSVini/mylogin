@@ -1,19 +1,21 @@
 import React from "react";
-import { Route, Routes} from "react-router-dom";
+import { BrowserRouter,Route, Routes } from "react-router-dom";
 import Login from "../pages/Login";
 import Dash from "../pages/Dash";
+
+
+
+
 export const Router = () =>{
 
     return(
         <>
- 
-            <Routes>
-                
+            <BrowserRouter>
+                <Routes>
+                    <Route name="/dash" component={<Dash/>}></Route>
                     <Route path="/" element={<Login/>}></Route>
-                    <Route path="/dash" element={<Dash/> }></Route> 
-                
-            </Routes>
-     
+                </Routes>
+            </BrowserRouter>
         
     
         </>

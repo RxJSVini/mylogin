@@ -10,11 +10,13 @@ function AuthContext({ children }){
 
 
     async function Signin(email, password){
+
         await firebaseCon.auth().signInWithEmailAndPassword(email, password)
         .then((response ) =>{
             console.log('Usuário logado com sucesso!')
             setUser(response.user.email);
-            setuserLogged(true)
+            setuserLogged(true);
+           
         })
         .catch((error) =>{
             console.log('Problemas na autenticação!')

@@ -1,11 +1,13 @@
 import React, { useState, useContext} from "react";
 import { Context } from "../../contexts/useAuth";
-import { Navigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 export default function Login(){
+
+    const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const { Signin , user, userLogged}= useContext(Context);
+    const { Signin , userLogged}= useContext(Context);
 
     async function handleSubmit(e){
         e.preventDefault();
@@ -36,6 +38,7 @@ export default function Login(){
             
             />
             <button disabled={email.length === 0}>Entrar</button>
+            <button onClick={() => navigate("/dash")}>Dash</button>
            </form>
         </>
     )
