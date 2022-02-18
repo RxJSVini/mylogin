@@ -1,28 +1,42 @@
 import React, {  createContext, useState } from "react";
-import firebaseCon from "../services/firebase";
+// import firebaseCon from "../services/firebase";
+
+import { useApi } from "./hooks/useApi";
+
 
 
 export const Context = createContext({});
 
 function AuthContext({ children }){
+    const api = useApi();
+
     const [userLogged, setuserLogged ] = useState(false);
     const [user, setUser ] = useState(null) ;
 
 
     async function Signin(email, password){
 
-        await firebaseCon.auth().signInWithEmailAndPassword(email, password)
-        .then((response ) =>{
-            console.log('Usuário logado com sucesso!')
-            setUser(response.user.email);
-            setuserLogged(true);
-           
-        })
-        .catch((error) =>{
-            console.log('Problemas na autenticação!')
-            console.log(error.message)
-        })
+        if(email, password){
+            const data = await api.signin(email, password);
+            if(data){
+                setuserLogged(true);
+                const { email } = data.user;
+                setUser(email);
+            }
+        }
 
+        localStorage.setItem("@my_token", `${Math.pow(55, 33)}${Date.now()}`);
+    }
+
+
+    async function SignOut(){
+        try {
+            await api.signout();
+            return localStorage.removeItem("@my_token");
+
+        } catch (error) {
+            return error.message;
+        }
     }
 
 
@@ -30,7 +44,7 @@ function AuthContext({ children }){
     return(
     
          
-        <Context.Provider value={{ Signin , user, userLogged}}>
+        <Context.Provider value={{ Signin , SignOut , user, userLogged}}>
                 {children}
         </Context.Provider>
     

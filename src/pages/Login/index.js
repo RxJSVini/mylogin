@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 export default function Login(){
 
     const navigate = useNavigate();
+
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -11,7 +12,10 @@ export default function Login(){
 
     async function handleSubmit(e){
         e.preventDefault();
-        return await Signin(email, password)
+        Signin(email, password)
+        if(userLogged){
+           return  navigate('/dash');
+        }
        
     }
 
@@ -28,7 +32,6 @@ export default function Login(){
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
 
-            
             />
             <input
                 type="password"
